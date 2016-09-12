@@ -1,0 +1,236 @@
+var _user$project$Question$findFeedback = F3(
+	function (answer, response, distractors) {
+		findFeedback:
+		while (true) {
+			var _p0 = distractors;
+			if (_p0.ctor === '[]') {
+				return A2(_elm_lang$core$Basics_ops['++'], 'Incorrect. The answer is ', answer);
+			} else {
+				var _p1 = _p0._0;
+				if (_elm_lang$core$Native_Utils.eq(
+					_elm_lang$core$Basics$fst(_p1),
+					response) || _elm_lang$core$Native_Utils.eq(
+					_elm_lang$core$Basics$fst(_p1),
+					'')) {
+					return A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$snd(_p1),
+						A2(_elm_lang$core$Basics_ops['++'], ' The answer is ', answer));
+				} else {
+					var _v1 = answer,
+						_v2 = response,
+						_v3 = _p0._1;
+					answer = _v1;
+					response = _v2;
+					distractors = _v3;
+					continue findFeedback;
+				}
+			}
+		}
+	});
+var _user$project$Question$cardToString = function (c) {
+	var _p2 = c;
+	if (_p2.ctor === 'Wildcard') {
+		return 'Wildcard';
+	} else {
+		if (_p2._0._1.ctor === 'Num') {
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				'Card(',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(_p2._0._0),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						', Num ',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Basics$toString(_p2._0._1._0),
+							')'))));
+		} else {
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				'Card(',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(_p2._0._0),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						', ',
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Basics$toString(_p2._0._1),
+							')'))));
+		}
+	}
+};
+var _user$project$Question$mystery = function (c) {
+	var _p3 = c;
+	_v5_2:
+	do {
+		_v5_1:
+		do {
+			_v5_0:
+			do {
+				if (_p3.ctor === 'Card') {
+					switch (_p3._0._1.ctor) {
+						case 'Ace':
+							switch (_p3._0._0.ctor) {
+								case 'Spade':
+									break _v5_0;
+								case 'Heart':
+									break _v5_1;
+								default:
+									break _v5_1;
+							}
+						case 'Jack':
+							switch (_p3._0._0.ctor) {
+								case 'Spade':
+									break _v5_0;
+								case 'Heart':
+									break _v5_2;
+								default:
+									return 4;
+							}
+						case 'Num':
+							switch (_p3._0._0.ctor) {
+								case 'Spade':
+									break _v5_0;
+								case 'Heart':
+									break _v5_2;
+								default:
+									return _p3._0._1._0;
+							}
+						default:
+							switch (_p3._0._0.ctor) {
+								case 'Spade':
+									break _v5_0;
+								case 'Heart':
+									break _v5_2;
+								default:
+									return 5;
+							}
+					}
+				} else {
+					return 6;
+				}
+			} while(false);
+			return 1;
+		} while(false);
+		return 2;
+	} while(false);
+	return 3;
+};
+var _user$project$Question$Question = F4(
+	function (a, b, c, d) {
+		return {question: a, distractors: b, answer: c, format: d};
+	});
+var _user$project$Question$MultipleChoice = {ctor: 'MultipleChoice'};
+var _user$project$Question$FillInTheBlank = {ctor: 'FillInTheBlank'};
+var _user$project$Question$emptyQuestion = {
+	question: _elm_lang$core$Native_List.fromArray(
+		[]),
+	distractors: _elm_lang$core$Native_List.fromArray(
+		[]),
+	answer: {ctor: '_Tuple2', _0: '', _1: ''},
+	format: _user$project$Question$FillInTheBlank
+};
+var _user$project$Question$Spade = {ctor: 'Spade'};
+var _user$project$Question$Heart = {ctor: 'Heart'};
+var _user$project$Question$Diamond = {ctor: 'Diamond'};
+var _user$project$Question$Club = {ctor: 'Club'};
+var _user$project$Question$Num = function (a) {
+	return {ctor: 'Num', _0: a};
+};
+var _user$project$Question$Ace = {ctor: 'Ace'};
+var _user$project$Question$King = {ctor: 'King'};
+var _user$project$Question$Queen = {ctor: 'Queen'};
+var _user$project$Question$Jack = {ctor: 'Jack'};
+var _user$project$Question$Wildcard = {ctor: 'Wildcard'};
+var _user$project$Question$Card = function (a) {
+	return {ctor: 'Card', _0: a};
+};
+var _user$project$Question$randomCard = function (randomValues) {
+	var wildCard = A3(
+		_user$project$RandomStuff$pickOne,
+		A2(_elm_lang$core$List$drop, 2, randomValues),
+		_elm_lang$core$Native_List.fromArray(
+			[1, 2, 3, 4, 5]),
+		1);
+	var rank = A3(
+		_user$project$RandomStuff$pickOne,
+		A2(_elm_lang$core$List$drop, 1, randomValues),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_user$project$Question$Jack,
+				_user$project$Question$Queen,
+				_user$project$Question$King,
+				_user$project$Question$Ace,
+				_user$project$Question$Num(2),
+				_user$project$Question$Num(3),
+				_user$project$Question$Num(4),
+				_user$project$Question$Num(5),
+				_user$project$Question$Num(6)
+			]),
+		_user$project$Question$Queen);
+	var suit = A3(
+		_user$project$RandomStuff$pickOne,
+		randomValues,
+		_elm_lang$core$Native_List.fromArray(
+			[_user$project$Question$Club, _user$project$Question$Diamond, _user$project$Question$Heart, _user$project$Question$Spade]),
+		_user$project$Question$Club);
+	return _elm_lang$core$Native_Utils.eq(wildCard, 5) ? _user$project$Question$Wildcard : _user$project$Question$Card(
+		{ctor: '_Tuple2', _0: suit, _1: rank});
+};
+var _user$project$Question$newQuestion = F2(
+	function (randomValues, index) {
+		var distractors = _elm_lang$core$Native_List.fromArray(
+			['1', '2', '3', '4', '5', '6']);
+		var card = _user$project$Question$randomCard(randomValues);
+		var question$ = _elm_lang$core$Native_List.fromArray(
+			[
+				'What is the value of ans after the following ',
+				'ML expressions are evaluated?',
+				'',
+				'datatype suit = Club | Diamond | Heart | Spade',
+				'datatype rank = Jack | Queen | King | Ace | Num of int',
+				'datatype cardType = Card of suit * rank | Wildcard',
+				'',
+				'fun mystery (c : cardType) =',
+				'    case c of',
+				'        Card(Spade, _) => 1',
+				'      | Card(_, Ace) => 2',
+				'      | Card(Heart, _) => 3',
+				'      | Card(_, Jack) => 4',
+				'      | Card(_, Num i) => i',
+				'      | Card(_, _) => 5',
+				'      | Wildcard => 6',
+				'',
+				A2(
+				_elm_lang$core$Basics_ops['++'],
+				'val my_card = ',
+				_user$project$Question$cardToString(card)),
+				'val ans = mystery(my_card)',
+				''
+			]);
+		var answer$ = _elm_lang$core$Basics$toString(
+			_user$project$Question$mystery(card));
+		var _p4 = A2(
+			_elm_lang$core$List$partition,
+			function (d) {
+				return _elm_lang$core$Native_Utils.eq(d, answer$);
+			},
+			_user$project$RandomStuff$compressList(distractors));
+		var distractors$ = _p4._1;
+		return {
+			question: question$,
+			distractors: A2(
+				_elm_lang$core$List$map,
+				function (dis) {
+					return {ctor: '_Tuple2', _0: dis, _1: 'Incorrect.'};
+				},
+				distractors$),
+			answer: {ctor: '_Tuple2', _0: answer$, _1: 'Correct'},
+			format: _user$project$Question$MultipleChoice
+		};
+	});
